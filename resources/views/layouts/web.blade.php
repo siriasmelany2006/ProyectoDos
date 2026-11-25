@@ -17,6 +17,31 @@
         {{-- Menú superior --}}
         @include('partials.web.header')
 
+        {{-- Mensajes (éxito, error y errores de validación) --}}
+        <div class="container px-5 pt-3">
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
+            @if ($errors->any())
+                <div class="alert alert-danger mb-0">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+        </div>
+
         {{-- Aquí entra el contenido de cada página --}}
         @yield('contenido')
     </main>

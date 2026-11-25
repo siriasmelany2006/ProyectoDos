@@ -21,14 +21,15 @@
                 </li>
             </ul>
 
-            {{-- Buscador (por ahora solo lleva a la lista de productos) --}}
+            {{-- Buscador: busca en productos (por nombre de producto o de tienda) --}}
             <form class="d-flex me-3" action="{{ route('productos.index') }}" method="GET">
-                <input class="form-control form-control-sm" type="search" name="q" placeholder="Buscar productos, tiendas...">
+                <input class="form-control form-control-sm" type="search" name="q" value="{{ request('q') }}" placeholder="Buscar productos, tiendas...">
             </form>
 
-            {{-- Carrito (el 3 es de ejemplo) --}}
+            {{-- Carrito: el número sale de la sesión --}}
+            @php $cantidadCarrito = \App\Services\CarritoService::cantidad(); @endphp
             <a class="btn btn-outline-light btn-sm me-3" href="{{ route('carrito') }}">
-                <i class="bi bi-cart"></i> <span class="badge bg-light text-dark">3</span>
+                <i class="bi bi-cart"></i> <span class="badge bg-light text-dark">{{ $cantidadCarrito }}</span>
             </a>
 
             {{-- Accesos directos a los paneles (temporales, mientras no hay login) --}}

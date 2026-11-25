@@ -10846,3 +10846,89 @@ html {
   background-repeat: no-repeat;
   min-height: 15rem;
 }
+
+/* ===== CrickoStore: ajustes del sitio publico (pegar al final) ===== */
+
+/* --- Slider de tiendas destacadas --- */
+#sliderTiendas .carousel-item > div {
+  position: relative;
+  overflow: hidden;
+  height: clamp(320px, 40vw, 420px) !important;
+}
+
+/* Capa oscura suave: el texto siempre se lee sobre cualquier banner */
+#sliderTiendas .carousel-item > div::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0, 0, 0, .15), rgba(0, 0, 0, .5));
+}
+
+/* Banners de ejemplo (carpeta demo): traen el nombre dibujado, se difuminan.
+   Los banners que suban las tiendas no se tocan. */
+#sliderTiendas .carousel-item > div[style*="demo/banner-"]::before {
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+/* Tarjeta con efecto vidrio */
+#sliderTiendas .carousel-item > div > div {
+  position: relative;
+  z-index: 1;
+  width: min(92%, 580px);
+  background: rgba(15, 20, 17, .6) !important;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 1rem !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .35);
+}
+
+#sliderTiendas h2 {
+  font-weight: 700;
+  letter-spacing: .01em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, .45);
+}
+
+#sliderTiendas p {
+  color: rgba(255, 255, 255, .88);
+  margin-bottom: 1.25rem;
+}
+
+#sliderTiendas .bg-white.rounded-circle {
+  border: 3px solid #fff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .35);
+}
+
+#sliderTiendas .btn-light {
+  border-radius: 50rem;
+  padding: .5rem 1.6rem;
+  font-weight: 600;
+}
+
+/* Flechas redondas */
+#sliderTiendas .carousel-control-prev,
+#sliderTiendas .carousel-control-next {
+  width: 8%;
+}
+
+#sliderTiendas .carousel-control-prev-icon,
+#sliderTiendas .carousel-control-next-icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  background-color: rgba(0, 0, 0, .4);
+  background-size: 50%;
+  border-radius: 50%;
+}
+
+/* --- Tarjetas de productos y tiendas --- */
+.row > .col > .card {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.row > .col > .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, .15);
+}
