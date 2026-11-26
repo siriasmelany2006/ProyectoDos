@@ -4,22 +4,17 @@
 
 @section('contenido')
 @php
-    // Datos de ejemplo (quemados)
-    $pedidos = [
-        ['id' => 105, 'cliente' => 'María López', 'correo' => 'maria@mail.com', 'total' => '₡75.000', 'estado' => 'En preparación', 'fecha' => '27/10/2026'],
-        ['id' => 104, 'cliente' => 'Juan Pérez', 'correo' => 'juan@mail.com', 'total' => '₡42.500', 'estado' => 'Listo', 'fecha' => '26/10/2026'],
-        ['id' => 103, 'cliente' => 'Ana Vargas', 'correo' => 'ana@mail.com', 'total' => '₡18.000', 'estado' => 'Entregado', 'fecha' => '25/10/2026'],
-        ['id' => 102, 'cliente' => 'Luis Mora', 'correo' => 'luis@mail.com', 'total' => '₡32.000', 'estado' => 'En preparación', 'fecha' => '24/10/2026'],
-        ['id' => 101, 'cliente' => 'Carla Rojas', 'correo' => 'carla@mail.com', 'total' => '₡28.500', 'estado' => 'Entregado', 'fecha' => '23/10/2026'],
-    ];
-
     // Color de la etiqueta según el estado
     $colores = ['En preparación' => 'warning', 'Listo' => 'info', 'Entregado' => 'success'];
 @endphp
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="h3 mb-0 text-gray-800">Pedidos</h1>
-    <input type="search" class="form-control w-25" placeholder="Buscar pedidos...">
+
+    {{-- Buscador: por cliente, correo o número de pedido --}}
+    <form action="{{ route('admin.pedidos.index') }}" method="GET" class="w-25">
+        <input type="search" name="q" value="{{ request('q') }}" class="form-control" placeholder="Buscar pedidos...">
+    </form>
 </div>
 
 <div class="card shadow mb-4">
@@ -37,32 +32,29 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($pedidos as $p)
+                @forelse ($pedidos as $p)
                 <tr>
-                    <td>#{{ $p['id'] }}</td>
-                    <td>{{ $p['cliente'] }}</td>
-                    <td>{{ $p['correo'] }}</td>
-                    <td>{{ $p['total'] }}</td>
-                    <td><span class="badge badge-{{ $colores[$p['estado']] }}">{{ $p['estado'] }}</span></td>
-                    <td>{{ $p['fecha'] }}</td>
+                    <td>#{{ $p->id_pedido }}</td>
+                    <td>{{ $p->cliente }}</td>
+                    <td>{{ $p->correo }}</td>
+                    <td>₡{{ number_format($p->total, 0, ',', '.') }}</td>
+                    <td><span class="badge badge-{{ $colores[$p->estado] ?? 'secondary' }}">{{ $p->estado }}</span></td>
+                    <td>{{ $p->fecha->format('d/m/Y') }}</td>
                     <td>
-                        <a href="{{ route('admin.pedidos.show', $p['id']) }}" class="btn btn-sm btn-dark">Ver</a>
+                        <a href="{{ route('admin.pedidos.show', $p->id_pedido) }}" class="btn btn-sm btn-dark">Ver</a>
                     </td>
                 </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan="7" class="text-center text-muted">No se encontraron pedidos.</td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
 
-        {{-- Paginación de ejemplo --}}
-        <nav>
-            <ul class="pagination justify-content-center mb-0">
-                <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-            </ul>
-        </nav>
+        <div class="d-flex justify-content-center">
+            {{ $pedidos->links('pagination::bootstrap-4') }}
+        </div>
     </div>
 </div>
 @endsection

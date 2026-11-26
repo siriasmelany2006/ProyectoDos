@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ControllerAdmin;
+use App\Http\Controllers\ControllerAuth;
 use App\Http\Controllers\ControllerTienda;
 use App\Http\Controllers\ControllerWeb;
 use Illuminate\Support\Facades\Route;
@@ -24,16 +25,28 @@ Route::get('/finalizar', [ControllerWeb::class, 'finalizar'])->name('finalizar')
 Route::post('/finalizar', [ControllerWeb::class, 'pedidoGuardar'])->name('pedido.guardar');
 
 
-Route::prefix('admin')->name('admin.')->group(function () {
+// Login con Google
+Route::get('/login', [ControllerAuth::class, 'login'])->name('login');
+Route::get('/auth/google', [ControllerAuth::class, 'redirigirGoogle'])->name('auth.google');
+Route::get('/auth/google/callback', [ControllerAuth::class, 'callbackGoogle'])->name('auth.google.callback');
+Route::post('/logout', [ControllerAuth::class, 'logout'])->name('logout');
+
+
+// Panel del administrador (solo rol admin)
+Route::prefix('admin')->name('admin.')->middleware('rol:admin')->group(function () {
     // La primera pantalla del panel es el listado de pedidos
     Route::redirect('/', '/admin/pedidos');
     Route::get('/pedidos', [ControllerAdmin::class, 'pedidos'])->name('pedidos.index');
     Route::get('/pedidos/{id}', [ControllerAdmin::class, 'pedidoDetalle'])->name('pedidos.show');
+    Route::post('/pedidos/{id}/entregar', [ControllerAdmin::class, 'confirmarEntrega'])->name('pedidos.entregar');
     Route::get('/tiendas', [ControllerAdmin::class, 'tiendas'])->name('tiendas.index');
+    Route::patch('/tiendas/{id}/activa', [ControllerAdmin::class, 'tiendaActiva'])->name('tiendas.activa');
+    Route::patch('/tiendas/{id}/destacada', [ControllerAdmin::class, 'tiendaDestacada'])->name('tiendas.destacada');
 });
 
 
-Route::prefix('tienda')->name('tienda.')->group(function () {
+// Panel de la tienda (solo rol tienda)
+Route::prefix('tienda')->name('tienda.')->middleware('rol:tienda')->group(function () {
     Route::redirect('/', '/tienda/mi-tienda');
     Route::get('/mi-tienda', [ControllerTienda::class, 'miTienda'])->name('mi-tienda');
     Route::get('/productos', [ControllerTienda::class, 'productos'])->name('productos.index');

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('google_id')->nullable()->unique();
             $table->string('nombre');
             $table->string('correo')->unique();
-            $table->string('foto', 500)->nullable();
+            $table->text('foto')->nullable(); // la URL de la foto de Google puede ser muy larga
             $table->string('rol', 20)->default('tienda'); // 'admin' | 'tienda'
         });
 
@@ -34,4 +34,4 @@ return new class extends Migration
         Schema::dropIfExists('sessions');
         Schema::dropIfExists('usuarios');
     }
-};
+};  

@@ -26,11 +26,14 @@
 
     <hr class="sidebar-divider d-none d-md-block">
 
-    {{-- Cerrar sesión (por ahora solo vuelve al inicio) --}}
+    {{-- Cerrar sesión --}}
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('home') }}">
-            <i class="fas fa-fw fa-sign-out-alt"></i><span>Cerrar sesión</span>
-        </a>
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="nav-link btn btn-link border-0 w-100 text-left">
+                <i class="fas fa-fw fa-sign-out-alt"></i><span>Cerrar sesión</span>
+            </button>
+        </form>
     </li>
 
     <div class="text-center d-none d-md-inline">

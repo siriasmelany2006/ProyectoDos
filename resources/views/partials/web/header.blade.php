@@ -32,9 +32,18 @@
                 <i class="bi bi-cart"></i> <span class="badge bg-light text-dark">{{ $cantidadCarrito }}</span>
             </a>
 
-            {{-- Accesos directos a los paneles (temporales, mientras no hay login) --}}
-            <a class="btn btn-outline-light btn-sm me-2" href="{{ route('admin.pedidos.index') }}">Admin</a>
-            <a class="btn btn-outline-light btn-sm" href="{{ route('tienda.mi-tienda') }}">Mi tienda</a>
+            {{-- Sesión: si hay usuario muestra su panel y cerrar sesión; si no, iniciar sesión --}}
+            @auth
+                <a class="btn btn-outline-light btn-sm me-2" href="{{ auth()->user()->esAdmin() ? route('admin.pedidos.index') : route('tienda.mi-tienda') }}">
+                    {{ auth()->user()->esAdmin() ? 'Panel admin' : 'Mi tienda' }}
+                </a>
+                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-light btn-sm">Cerrar sesión</button>
+                </form>
+            @else
+                <a class="btn btn-light btn-sm" href="{{ route('login') }}">Iniciar sesión</a>
+            @endauth
         </div>
     </div>
 </nav>

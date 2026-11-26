@@ -27,8 +27,32 @@
                 {{-- Barra superior --}}
                 @include('partials.admin.topbar')
 
-                {{-- Aquí entra el contenido de cada página --}}
                 <div class="container-fluid">
+
+                    {{-- Mensajes (éxito, error y errores de validación) --}}
+                    @if (session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+                        </div>
+                    @endif
+                    @if (session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('error') }}
+                            <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+                        </div>
+                    @endif
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    {{-- Aquí entra el contenido de cada página --}}
                     @yield('contenido')
                 </div>
             </div>
