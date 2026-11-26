@@ -11,8 +11,17 @@ Route::get('/productos', [ControllerWeb::class, 'productos'])->name('productos.i
 Route::get('/productos/{id}', [ControllerWeb::class, 'productoDetalle'])->name('productos.show');
 Route::get('/tiendas', [ControllerWeb::class, 'tiendas'])->name('tiendas.index');
 Route::get('/tiendas/{id}', [ControllerWeb::class, 'tiendaDetalle'])->name('tiendas.show');
+Route::post('/tiendas/{id}/contacto', [ControllerWeb::class, 'contactoTienda'])->name('tiendas.contacto');
+
+// Carrito (en sesión)
 Route::get('/carrito', [ControllerWeb::class, 'carrito'])->name('carrito');
+Route::post('/carrito', [ControllerWeb::class, 'carritoAgregar'])->name('carrito.agregar');
+Route::patch('/carrito/{id}', [ControllerWeb::class, 'carritoActualizar'])->name('carrito.actualizar');
+Route::delete('/carrito/{id}', [ControllerWeb::class, 'carritoEliminar'])->name('carrito.eliminar');
+
+// Finalizar pedido
 Route::get('/finalizar', [ControllerWeb::class, 'finalizar'])->name('finalizar');
+Route::post('/finalizar', [ControllerWeb::class, 'pedidoGuardar'])->name('pedido.guardar');
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
