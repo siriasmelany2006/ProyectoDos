@@ -5,7 +5,7 @@ use App\Http\Controllers\ControllerTienda;
 use App\Http\Controllers\ControllerWeb;
 use Illuminate\Support\Facades\Route;
 
-// SITIO PÚBLICO
+
 Route::get('/', [ControllerWeb::class, 'inicio'])->name('home');
 Route::get('/productos', [ControllerWeb::class, 'productos'])->name('productos.index');
 Route::get('/productos/{id}', [ControllerWeb::class, 'productoDetalle'])->name('productos.show');
@@ -14,7 +14,7 @@ Route::get('/tiendas/{id}', [ControllerWeb::class, 'tiendaDetalle'])->name('tien
 Route::get('/carrito', [ControllerWeb::class, 'carrito'])->name('carrito');
 Route::get('/finalizar', [ControllerWeb::class, 'finalizar'])->name('finalizar');
 
-// PANEL DEL ADMINISTRADOR (todas sus rutas empiezan con /admin)
+
 Route::prefix('admin')->name('admin.')->group(function () {
     // La primera pantalla del panel es el listado de pedidos
     Route::redirect('/', '/admin/pedidos');
@@ -23,7 +23,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/tiendas', [ControllerAdmin::class, 'tiendas'])->name('tiendas.index');
 });
 
-// PANEL DE LA TIENDA (todas sus rutas empiezan con /tienda)
+
 Route::prefix('tienda')->name('tienda.')->group(function () {
     Route::redirect('/', '/tienda/mi-tienda');
     Route::get('/mi-tienda', [ControllerTienda::class, 'miTienda'])->name('mi-tienda');

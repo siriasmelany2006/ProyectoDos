@@ -4,13 +4,13 @@
 
 @section('contenido')
 @php
-    // Datos de ejemplo (quemados)
-    $productos = [
-        ['id' => 1, 'nombre' => 'Producto A', 'precio' => '₡25.000', 'categorias' => ['Tecnología', 'Accesorios'], 'activo' => true],
-        ['id' => 2, 'nombre' => 'Producto B', 'precio' => '₡30.000', 'categorias' => ['Hogar', 'Decoración'], 'activo' => true],
-        ['id' => 3, 'nombre' => 'Producto C', 'precio' => '₡20.000', 'categorias' => ['Moda'], 'activo' => false],
-        ['id' => 4, 'nombre' => 'Producto D', 'precio' => '₡18.000', 'categorias' => ['Belleza'], 'activo' => true],
-    ];
+// Datos de ejemplo (quemados)
+$productos = [
+['id' => 1, 'nombre' => 'Producto A', 'precio' => '₡25.000', 'categorias' => ['Tecnología', 'Accesorios'], 'activo' => true],
+['id' => 2, 'nombre' => 'Producto B', 'precio' => '₡30.000', 'categorias' => ['Hogar', 'Decoración'], 'activo' => true],
+['id' => 3, 'nombre' => 'Producto C', 'precio' => '₡20.000', 'categorias' => ['Moda'], 'activo' => false],
+['id' => 4, 'nombre' => 'Producto D', 'precio' => '₡18.000', 'categorias' => ['Belleza'], 'activo' => true],
+];
 @endphp
 
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -43,14 +43,14 @@
                     <td>{{ $p['precio'] }}</td>
                     <td>
                         @foreach ($p['categorias'] as $c)
-                            <span class="badge badge-secondary">{{ $c }}</span>
+                        <span class="badge badge-secondary">{{ $c }}</span>
                         @endforeach
                     </td>
                     <td>
                         @if ($p['activo'])
-                            <span class="badge badge-success">Activo</span>
+                        <span class="badge badge-success">Activo</span>
                         @else
-                            <span class="badge badge-danger">Inactivo</span>
+                        <span class="badge badge-danger">Inactivo</span>
                         @endif
                     </td>
                     <td>
@@ -59,9 +59,9 @@
                         </a>
                         {{-- Activar o desactivar (por ahora recarga la lista) --}}
                         @if ($p['activo'])
-                            <a href="{{ route('tienda.productos.index') }}" class="btn btn-sm btn-danger">Desactivar</a>
+                        <a href="{{ route('tienda.productos.index') }}" class="btn btn-sm btn-danger">Desactivar</a>
                         @else
-                            <a href="{{ route('tienda.productos.index') }}" class="btn btn-sm btn-success">Activar</a>
+                        <a href="{{ route('tienda.productos.index') }}" class="btn btn-sm btn-success">Activar</a>
                         @endif
                     </td>
                 </tr>

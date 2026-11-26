@@ -34,7 +34,7 @@
                     <label class="font-weight-bold">Galería de imágenes (máximo 4)</label>
                     @for ($i = 1; $i <= 4; $i++)
                         <input type="file" class="form-control-file mb-2">
-                    @endfor
+                        @endfor
                 </div>
             </div>
 

@@ -4,11 +4,11 @@
 
 @section('contenido')
 @php
-    // Solo los productos de esta tienda (quemados)
-    $productos = [
-        ['nombre' => 'Producto A', 'precio' => '₡25.000', 'cantidad' => 1, 'subtotal' => '₡25.000', 'estado' => 'Listo'],
-        ['nombre' => 'Producto C', 'precio' => '₡20.000', 'cantidad' => 1, 'subtotal' => '₡20.000', 'estado' => 'En espera'],
-    ];
+// datos quemados
+$productos = [
+['nombre' => 'Producto A', 'precio' => '₡25.000', 'cantidad' => 1, 'subtotal' => '₡25.000', 'estado' => 'Listo'],
+['nombre' => 'Producto C', 'precio' => '₡20.000', 'cantidad' => 1, 'subtotal' => '₡20.000', 'estado' => 'En espera'],
+];
 @endphp
 
 <nav>
@@ -25,7 +25,9 @@
     {{-- Información del cliente --}}
     <div class="col-lg-4">
         <div class="card shadow mb-4">
-            <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Información del cliente</h6></div>
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Información del cliente</h6>
+            </div>
             <div class="card-body">
                 <p><strong>Nombre:</strong> María López</p>
                 <p><strong>Correo:</strong> maria@mail.com</p>
@@ -38,7 +40,9 @@
     {{-- Productos de la tienda dentro del pedido --}}
     <div class="col-lg-8">
         <div class="card shadow mb-4">
-            <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Productos del pedido (solo los de mi tienda)</h6></div>
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Productos del pedido (solo los de mi tienda)</h6>
+            </div>
             <div class="card-body">
                 <table class="table table-bordered">
                     <thead class="thead-light">
@@ -63,13 +67,13 @@
                             </td>
                             <td>
                                 @if ($p['estado'] == 'Listo')
-                                    {{-- Ya está listo: botón deshabilitado --}}
-                                    <button class="btn btn-sm btn-secondary" disabled>Marcar como listo</button>
+                                {{-- Ya está listo: botón deshabilitado --}}
+                                <button class="btn btn-sm btn-secondary" disabled>Marcar como listo</button>
                                 @else
-                                    {{-- Por ahora recarga el detalle --}}
-                                    <a href="{{ route('tienda.pedidos.show', 105) }}" class="btn btn-sm btn-dark">
-                                        <i class="fas fa-check"></i> Marcar como listo
-                                    </a>
+                                {{-- Por ahora recarga el detalle --}}
+                                <a href="{{ route('tienda.pedidos.show', 105) }}" class="btn btn-sm btn-dark">
+                                    <i class="fas fa-check"></i> Marcar como listo
+                                </a>
                                 @endif
                             </td>
                         </tr>
