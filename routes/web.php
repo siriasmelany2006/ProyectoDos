@@ -48,10 +48,22 @@ Route::prefix('admin')->name('admin.')->middleware('rol:admin')->group(function 
 // Panel de la tienda (solo rol tienda)
 Route::prefix('tienda')->name('tienda.')->middleware('rol:tienda')->group(function () {
     Route::redirect('/', '/tienda/mi-tienda');
+
+    // Mi tienda
     Route::get('/mi-tienda', [ControllerTienda::class, 'miTienda'])->name('mi-tienda');
+    Route::put('/mi-tienda', [ControllerTienda::class, 'miTiendaActualizar'])->name('mi-tienda.actualizar');
+
+    // Mis productos
     Route::get('/productos', [ControllerTienda::class, 'productos'])->name('productos.index');
     Route::get('/productos/crear', [ControllerTienda::class, 'productoCrear'])->name('productos.crear');
+    Route::post('/productos', [ControllerTienda::class, 'productoGuardar'])->name('productos.guardar');
     Route::get('/productos/{id}/editar', [ControllerTienda::class, 'productoEditar'])->name('productos.editar');
+    Route::put('/productos/{id}', [ControllerTienda::class, 'productoActualizar'])->name('productos.actualizar');
+    Route::patch('/productos/{id}/activo', [ControllerTienda::class, 'productoActivo'])->name('productos.activo');
+    Route::delete('/productos/imagen/{id}', [ControllerTienda::class, 'imagenQuitar'])->name('productos.imagen.quitar');
+
+    // Mis pedidos
     Route::get('/pedidos', [ControllerTienda::class, 'pedidos'])->name('pedidos.index');
     Route::get('/pedidos/{id}', [ControllerTienda::class, 'pedidoDetalle'])->name('pedidos.show');
+    Route::patch('/pedidos/detalle/{id}/listo', [ControllerTienda::class, 'productoListo'])->name('pedidos.listo');
 });

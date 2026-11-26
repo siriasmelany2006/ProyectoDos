@@ -3,16 +3,6 @@
 @section('titulo', 'Mis productos')
 
 @section('contenido')
-@php
-// Datos de ejemplo (quemados)
-$productos = [
-['id' => 1, 'nombre' => 'Producto A', 'precio' => '₡25.000', 'categorias' => ['Tecnología', 'Accesorios'], 'activo' => true],
-['id' => 2, 'nombre' => 'Producto B', 'precio' => '₡30.000', 'categorias' => ['Hogar', 'Decoración'], 'activo' => true],
-['id' => 3, 'nombre' => 'Producto C', 'precio' => '₡20.000', 'categorias' => ['Moda'], 'activo' => false],
-['id' => 4, 'nombre' => 'Producto D', 'precio' => '₡18.000', 'categorias' => ['Belleza'], 'activo' => true],
-];
-@endphp
-
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="h3 mb-0 text-gray-800">Mis productos</h1>
     <a href="{{ route('tienda.productos.crear') }}" class="btn btn-dark">
@@ -22,6 +12,16 @@ $productos = [
 
 <div class="card shadow mb-4">
     <div class="card-body">
+
+        {{-- Buscador --}}
+        <form method="GET" action="{{ route('tienda.productos.index') }}" class="form-inline mb-3">
+            <input type="text" name="q" value="{{ request('q') }}" class="form-control mr-2" placeholder="Buscar por nombre">
+            <button type="submit" class="btn btn-outline-dark mr-2"><i class="fas fa-search"></i> Buscar</button>
+            @if (request('q'))
+                <a href="{{ route('tienda.productos.index') }}" class="btn btn-link">Limpiar</a>
+            @endif
+        </form>
+
         <table class="table table-bordered table-hover">
             <thead class="thead-light">
                 <tr>
@@ -35,39 +35,50 @@ $productos = [
                 </tr>
             </thead>
             <tbody>
-                @foreach ($productos as $p)
+                @forelse ($productos as $p)
                 <tr>
-                    <td>{{ $p['id'] }}</td>
-                    <td><i class="fas fa-image fa-2x text-gray-500"></i></td>
-                    <td>{{ $p['nombre'] }}</td>
-                    <td>{{ $p['precio'] }}</td>
+                    <td>{{ $p->id_producto }}</td>
+                    <td><img src="{{ $p->imagen_url }}" alt="{{ $p->nombre }}" style="width: 60px; height: 45px; object-fit: cover;"></td>
+                    <td>{{ $p->nombre }}</td>
+                    <td>₡{{ number_format($p->precio, 0, ',', '.') }}</td>
                     <td>
-                        @foreach ($p['categorias'] as $c)
-                        <span class="badge badge-secondary">{{ $c }}</span>
+                        @foreach ($p->categorias as $c)
+                            <span class="badge badge-secondary">{{ $c->nombre }}</span>
                         @endforeach
                     </td>
                     <td>
-                        @if ($p['activo'])
-                        <span class="badge badge-success">Activo</span>
+                        @if ($p->activo)
+                            <span class="badge badge-success">Activo</span>
                         @else
-                        <span class="badge badge-danger">Inactivo</span>
+                            <span class="badge badge-danger">Inactivo</span>
                         @endif
                     </td>
                     <td>
-                        <a href="{{ route('tienda.productos.editar', $p['id']) }}" class="btn btn-sm btn-dark">
+                        <a href="{{ route('tienda.productos.editar', $p->id_producto) }}" class="btn btn-sm btn-dark">
                             <i class="fas fa-pen"></i> Editar
                         </a>
-                        {{-- Activar o desactivar (por ahora recarga la lista) --}}
-                        @if ($p['activo'])
-                        <a href="{{ route('tienda.productos.index') }}" class="btn btn-sm btn-danger">Desactivar</a>
-                        @else
-                        <a href="{{ route('tienda.productos.index') }}" class="btn btn-sm btn-success">Activar</a>
-                        @endif
+
+                        {{-- Activar o desactivar (solo cambia el estado, no se borra) --}}
+                        <form action="{{ route('tienda.productos.activo', $p->id_producto) }}" method="POST" class="d-inline">
+                            @csrf
+                            @method('PATCH')
+                            @if ($p->activo)
+                                <button type="submit" class="btn btn-sm btn-danger">Desactivar</button>
+                            @else
+                                <button type="submit" class="btn btn-sm btn-success">Activar</button>
+                            @endif
+                        </form>
                     </td>
                 </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan="7" class="text-center text-muted py-4">Todavía no tienes productos registrados.</td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
+
+        {{ $productos->links('pagination::bootstrap-4') }}
     </div>
 </div>
 @endsection
